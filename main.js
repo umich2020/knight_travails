@@ -21,6 +21,8 @@ function add_edge (arr) {
             // let test_node = node(x,y) => add later to master array
 
             //now we have to go through the addition array
+            let list =[]
+            arr[x][y] =list
             for(let pointer=0;pointer<addition.length;pointer++){
                 //now we set up if condition
                 let changed_x = addition[pointer][0] + x
@@ -29,7 +31,7 @@ function add_edge (arr) {
                     if(changed_y >=0 && changed_y <= 7){
                         let count =0
                         let valid =[changed_x,changed_y,count]
-                        arr[x][y]=valid//this should be pushed instead of changining to valid
+                        list.push(valid)//this should be pushed instead of changining to valid
                             //reason being because xand y is already a 2 dimension array
                     }
                 }
