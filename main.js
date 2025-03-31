@@ -1,7 +1,6 @@
 //function that does every single connection
     //we're doing the either the adjancecny matrix or adjency list
     //probably adjeancy list
-let possible_moves = [[],[],[],[],[],[],[],[]]
 function add_edge (arr) {
     //set the rules
     //move either 2 y axis 1 x axis
@@ -21,6 +20,7 @@ function add_edge (arr) {
             // let test_node = node(x,y) => add later to master array
 
             //now we have to go through the addition array
+            // let list =[[x,y]]
             let list =[]
             arr[x][y] =list
             for(let pointer=0;pointer<addition.length;pointer++){
@@ -40,10 +40,43 @@ function add_edge (arr) {
     }
 
 }
+let path =[]
+function bfs(current,end){
+    //array of count
+//base case
+let x_current = current[0]
+let y_current =current[1]
+let x_end = end[0]
+let y_end =end[1]
+let queue = [[x_current,y_current]]
+let visited = new Set()
+let result = []
+while (queue.length != 0)
+{
+    let node = queue.shift()
+    if (!visited.has(node)) {
+        visited.add(node)
+        result.push(node)
+    
+    for(let i=0; i<possible_moves[x_current][y_current].length;i++){
+        queue.push(possible_moves[x_current][y_current][i])
+        }
+    }
+}
+return result
+// possible_moves[x_current][y_current].forEach(node => {
+//     //i can't do for each because that's an infinite loop
+// });
+//we don't use recursion we use a queue and a while loop
+
+
+}
 //should we create node function that indicates how much its been passed
 function node(x,y){
     let count =0
     return (x,y,count)
 }
+let possible_moves = [[],[],[],[],[],[],[],[]]
+
 add_edge(possible_moves)
-console.log(possible_moves)
+console.log(bfs([0,0],[2,1]))
