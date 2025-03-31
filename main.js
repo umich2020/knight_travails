@@ -78,7 +78,11 @@ while (queue.length != 0)
     
     for(let i=0; i<possible_moves[x_current][y_current].length;i++){
         let queue_node = possible_moves[x_current][y_current][i]
-        queue_node.push(node)
+        console.log('current node slice is')
+        console.log(node.slice(0,2))
+        console.log("but node is")
+        console.log(node)
+        queue_node.push(node.slice(0,2))
         queue.push(queue_node)
         }//it might be this code that needs to have neighbors being pushed in
         //i.e. get the nieghbors from possible moves
@@ -100,5 +104,6 @@ function node(x,y){
 let possible_moves = [[],[],[],[],[],[],[],[]]
 
 add_edge(possible_moves)
-console.log(bfs([0,0],[0,2]))
+let result =bfs([0,0],[4,1])
+console.log(result[-1])
 console.log('finished program')
