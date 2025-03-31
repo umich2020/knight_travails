@@ -3,6 +3,6 @@ task-to do knight travials project in the odin project
 
 broad overview
 1. Create visual representation
-2. Form verticies based on function on 8x8 board
+2. Form verticies based on function on 8x8 board-done
 3. Implement algorithm(most likely dfs) to find link between two positions
 4. Figure out shortest distance and record each one

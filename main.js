@@ -29,8 +29,8 @@ function add_edge (arr) {
                 let changed_y =addition[pointer][1] + y
                 if (changed_x >=0 && changed_x <= 7){
                     if(changed_y >=0 && changed_y <= 7){
-                        let count =0
-                        let valid =[changed_x,changed_y,count]
+                        // let count =0
+                        let valid =[changed_x,changed_y]
                         list.push(valid)//this should be pushed instead of changining to valid
                             //reason being because xand y is already a 2 dimension array
                     }
@@ -42,6 +42,8 @@ function add_edge (arr) {
 }
 let path =[]
 function bfs(current,end){
+    console.log('end is')
+    console.log(end)
     //array of count
 //base case
 let x_current = current[0]
@@ -54,16 +56,35 @@ let result = []
 while (queue.length != 0)
 {
     let node = queue.shift()
+    console.log('node is')
+    console.log(node)
+    // console.log('end is')
+    // console.log(end)
+    console.log('queue is')
+    console.log(queue)
+
+    if (node[0] === end[0] && node[1]===end[1]) {
+        console.log('found it!')
+        console.log("node is")
+        console.log(node)
+        result.push(node)
+        break 
+    }
     if (!visited.has(node)) {
         visited.add(node)
         result.push(node)
+        x_current=node[0]
+        y_current=node[1]
     
     for(let i=0; i<possible_moves[x_current][y_current].length;i++){
-        queue.push(possible_moves[x_current][y_current][i])
-        }
+        let queue_node = possible_moves[x_current][y_current][i]
+        queue_node.push(node)
+        queue.push(queue_node)
+        }//it might be this code that needs to have neighbors being pushed in
+        //i.e. get the nieghbors from possible moves
     }
 }
-return result
+return result //this prints what was visited(all)
 // possible_moves[x_current][y_current].forEach(node => {
 //     //i can't do for each because that's an infinite loop
 // });
@@ -79,4 +100,5 @@ function node(x,y){
 let possible_moves = [[],[],[],[],[],[],[],[]]
 
 add_edge(possible_moves)
-console.log(bfs([0,0],[2,1]))
+console.log(bfs([0,0],[0,2]))
+console.log('finished program')
