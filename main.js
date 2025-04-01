@@ -1,6 +1,4 @@
-//function that does every single connection
-    //we're doing the either the adjancecny matrix or adjency list
-    //probably adjeancy list
+
     let visited = new Set()
     function hasVisited(targetArray,set) {
         for (const arr of set) {
@@ -13,14 +11,7 @@
       
 
 function add_edge (arr) {
-    //set the rules
-    //move either 2 y axis 1 x axis
-    //or move 2 x axis or 1 y axis
-        //either apply a list of different x and y axis mutliplcation
-        //or do it ourselves
-        //let's do the list
-    //values cannot be greater than 7 or less than 0
-    //if satifies then add to arr
+
     let addition = [[-2,-1],[-1,-2],[-2,1],[-1,2],[2,-1],[1,-2],[2,1],[1,2],]
 
     for(let x=0;x<arr.length;x++)
@@ -28,10 +19,7 @@ function add_edge (arr) {
         for(let y=0;y<arr.length;y++)
         {//these two loops gets all of our nodes
 
-            // let test_node = node(x,y) => add later to master array
 
-            //now we have to go through the addition array
-            // let list =[[x,y]]
             let list =[]
             arr[x][y] =list
             for(let pointer=0;pointer<addition.length;pointer++){
@@ -53,8 +41,8 @@ function add_edge (arr) {
 }
 let path =[]
 function bfs(current,end){
-    console.log('end is')
-    console.log(end)
+    // console.log('end is')
+    // console.log(end)
     //array of count
 //base case
 let x_current = current[0]
@@ -63,44 +51,41 @@ let x_end = end[0]
 let y_end =end[1]
 let queue = [[x_current,y_current]]
 let result = []
+function data_cleaning(arr) {
+    //shifts twice
+    arr.push(arr.shift())
+    arr.push(arr.shift())
+    //removes start_history
+    arr.shift()
+    let result =[]
+    for (let i=0; i<arr.length; i+= 2){
+        result.push(arr.slice(i,i+2))
+    }
+    return result
+    //now maps two things together
 
+}
 while (queue.length != 0)
 {
     let node = queue.shift()
-    console.log('node is before editing')
-    console.log(node)
-    console.log("tesint out flat")
-    console.log(node.flat(Infinity))
-    // console.log(node[2])
-    // console.log('end is')
-    // console.log(end)
-    // console.log('queue is')
-    // console.log(queue)
 
     if (node[0] === end[0] && node[1]===end[1]) {
-        console.log('found it!')
-        console.log("node is")
-        console.log(node)
-        // console.log(node[2])
+        // console.log('found it!')
+        // console.log("node is")
+        // console.log(node)
 
-        result.push(node)
-        break 
+        return data_cleaning(node.flat(Infinity))
     }
     if (hasVisited(node.slice(0,2),visited)=== false) {
-        console.log("has this been visited?: "+node.slice(0,2))
-        console.log(visited.has(node.slice(0,2)))
+
         visited.add(node.slice(0,2))
-        // console.log('the list of visited is ')
-        // console.log(visited)
-        result.push(node.slice(0,2))//might need to change result
+
+        result.push(node.slice(0,2))
         x_current=node[0]
         y_current=node[1]
     
     for(let i=0; i<possible_moves[x_current][y_current].length;i++){
-        // console.log("what is possible moves currently")
-        // console.log(possible_moves[x_current][y_current][i])
-        // console.log("is the validation true or false")
-        // console.log(hasVisited(possible_moves[x_current][y_current][i],visited))
+
         if(hasVisited(possible_moves[x_current][y_current][i],visited)===true){
             // console.log(possible_moves[x_current][y_current][i]+" has been skipped because it's been visited")
             continue
@@ -119,11 +104,11 @@ while (queue.length != 0)
             queue_node[2].push(node[2]) 
 
         }
-        console.log("what's the current: "+node)//current is constant is that cuasing an issue?
-        console.log("what's node 2")//node 2 is history
-        console.log(node[2])
-        console.log("current history")
-        console.log(queue_node[2])
+        // console.log("what's the current: "+node)//current is constant is that cuasing an issue?
+        // console.log("what's node 2")//node 2 is history
+        // console.log(node[2])
+        // console.log("current history")
+        // console.log(queue_node[2])
 
         // queue_node[2] = node[2]
         // console.log("queue_node is currently")
@@ -131,10 +116,10 @@ while (queue.length != 0)
 
         
         queue_node[2].push([x_current,y_current])//adds current thing to history
-        console.log("queue_node is on ln 129")
-        console.log(queue_node)
-        console.log("in case you can't see it it's")
-        console.log(queue_node[2])
+        // console.log("queue_node is on ln 129")
+        // console.log(queue_node)
+        // console.log("in case you can't see it it's")
+        // console.log(queue_node[2])
 
         queue.push(queue_node)
         }//it might be this code that needs to have neighbors being pushed in
@@ -142,18 +127,14 @@ while (queue.length != 0)
         //what are we returning
     }
 }
-return result //this prints what was visited(all)
-// possible_moves[x_current][y_current].forEach(node => {
-//     //i can't do for each because that's an infinite loop
-// });
-//we don't use recursion we use a queue and a while loop
-
-
+return result //this return doesn't actually do anything. cuz i got shitty code
 }
-//should we create node function that indicates how much its been passed
-function node(x,y){
-    let count =0
-    return (x,y,count)
+function final_formatting(arr){
+
+    console.log("You made it in "+arr.length+" moves! Here's your path: ")
+    arr.forEach((element) => {
+        console.log(element)
+    });
 }
 let possible_moves = [[],[],[],[],[],[],[],[]]
 
@@ -163,6 +144,5 @@ add_edge(possible_moves)
 // let result =bfs([0,0],[6,1])
 let result =bfs([0,0],[7,7])
 
-
-console.log(result[-1])
+final_formatting(result)
 console.log('finished program')
