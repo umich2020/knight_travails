@@ -1,6 +1,17 @@
 //function that does every single connection
     //we're doing the either the adjancecny matrix or adjency list
     //probably adjeancy list
+    let visited = new Set()
+    function hasVisited(targetArray,set) {
+        for (const arr of set) {
+          if (Array.isArray(arr) && arr.length === targetArray.length && arr.every((value, index) => value === targetArray[index])) {
+            return true;
+          }
+        }
+        return false;
+      }
+      
+
 function add_edge (arr) {
     //set the rules
     //move either 2 y axis 1 x axis
@@ -51,41 +62,82 @@ let y_current =current[1]
 let x_end = end[0]
 let y_end =end[1]
 let queue = [[x_current,y_current]]
-let visited = new Set()
 let result = []
+
 while (queue.length != 0)
 {
     let node = queue.shift()
-    console.log('node is')
+    console.log('node is before editing')
     console.log(node)
+    // console.log(node[2])
     // console.log('end is')
     // console.log(end)
-    console.log('queue is')
-    console.log(queue)
+    // console.log('queue is')
+    // console.log(queue)
 
     if (node[0] === end[0] && node[1]===end[1]) {
         console.log('found it!')
         console.log("node is")
         console.log(node)
+        // console.log(node[2])
+
         result.push(node)
         break 
     }
-    if (!visited.has(node)) {
-        visited.add(node)
-        result.push(node)
+    if (hasVisited(node.slice(0,2),visited)=== false) {
+        console.log("has this been visited?: "+node.slice(0,2))
+        console.log(visited.has(node.slice(0,2)))
+        visited.add(node.slice(0,2))
+        // console.log('the list of visited is ')
+        // console.log(visited)
+        result.push(node.slice(0,2))//might need to change result
         x_current=node[0]
         y_current=node[1]
     
     for(let i=0; i<possible_moves[x_current][y_current].length;i++){
+        // console.log("what is possible moves currently")
+        // console.log(possible_moves[x_current][y_current][i])
+        // console.log("is the validation true or false")
+        // console.log(hasVisited(possible_moves[x_current][y_current][i],visited))
+        if(hasVisited(possible_moves[x_current][y_current][i],visited)===true){
+            // console.log(possible_moves[x_current][y_current][i]+" has been skipped because it's been visited")
+            continue
+        }
         let queue_node = possible_moves[x_current][y_current][i]
-        console.log('current node slice is')
-        console.log(node.slice(0,2))
-        console.log("but node is")
-        console.log(node)
-        queue_node.push(node.slice(0,2))
+        // console.log('queue node is on ln 107')
+        // console.log(queue_node)
+        //make sure queue node is fine
+        if(node[2] === undefined){
+            queue_node[2]=["start_history"]
+            // node[2]=current
+        } else {
+            if(queue_node[2]===undefined){
+                queue_node[2] =[]
+            }
+            queue_node[2].push(node[2]) 
+
+        }
+        console.log("what's the current: "+node)//current is constant is that cuasing an issue?
+        console.log("what's node 2")//node 2 is history
+        console.log(node[2])
+        console.log("current history")
+        console.log(queue_node[2])
+
+        // queue_node[2] = node[2]
+        // console.log("queue_node is currently")
+        // console.log(queue_node)
+
+        
+        queue_node[2].push([x_current,y_current])//adds current thing to history
+        console.log("queue_node is on ln 129")
+        console.log(queue_node)
+        console.log("in case you can't see it it's")
+        console.log(queue_node[2])
+
         queue.push(queue_node)
         }//it might be this code that needs to have neighbors being pushed in
         //i.e. get the nieghbors from possible moves
+        //what are we returning
     }
 }
 return result //this prints what was visited(all)
@@ -104,6 +156,9 @@ function node(x,y){
 let possible_moves = [[],[],[],[],[],[],[],[]]
 
 add_edge(possible_moves)
-let result =bfs([0,0],[4,1])
+// let result =bfs([0,0],[0,2])
+// let result =bfs([0,0],[4,0])
+let result =bfs([0,0],[6,1])
+
 console.log(result[-1])
 console.log('finished program')
